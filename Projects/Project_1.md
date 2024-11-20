@@ -14,20 +14,51 @@ Assume you have USD\$100,000. You are looking at trading Coke and Pepsi. Assume 
 On the **29th of December 2023**, at the close of the market, assume you short sell USD\$100,000 shares of Coke stock, use the proceeds to buy USD\$100,000 shares of Pepsi. Assume we held these numbers of shares all the time:
 
 
- $00,000 shares of Coke stock and use the proceeds to buy USD\$100,000 shares of Pepsi. Assume we held these numbers of shares all the time:\end{flushleft}\begin{center}$ \textrm{KO}\;\textrm{shares}=\frac{100,000}{P_{KO} } $ and $ \textrm{PEP}\;\textrm{shares}=\frac{100,000}{P_{PEP} } $ \end{center}\begin{flushleft}Then the spread for this pairs trade is the difference between the price of PEP and the weighted price of KO, where the weight accounts for the relative number of shares:\end{flushleft}$ $\textrm{Weight}\;\textrm{of}\;\textrm{KO}=\frac{\textrm{KO}\;\textrm{shares}}{\textrm{PEP}\;\textrm{shares}}$ $\begin{flushleft}We plot:\end{flushleft}\begin{itemize}\setlength{\itemsep}{-1ex}   \item{\begin{flushleft} the spread of long Pepsi and weighted short Coke: $ \textrm{spread}=P_{PEP} \-P_{KO} \times \textrm{Weight}\;\textrm{of}\;\textrm{KO} $ \end{flushleft}}   \item{\begin{flushleft} the individual Coke \end{flushleft}}   \item{\begin{flushleft} the individual Pepsi \end{flushleft}}\end{itemize}```matlab% Timet = datetime(TT.Date);
-% Define date of entering pair tradestartDate = datetime(2023, 12, 29);
-% Find the index for start dateindex_dec29_2023 = find(TT.Date == startDate);
-% KO and PEP stock pricesko = TT.KO;pep = TT.PEP;
-% Numbers of shares heldshares_ko = 100000/ko(index_dec29_2023);shares_pep = 100000/pep(index_dec29_2023);
-% Weight of KOweight = shares_ko/shares_pep;
-% Weighted spread (price differential)spread = pep - ko * weight;
-figure()set(gcf, 'Position', [0 0 1000 1000]) subplot(3,1,1)plot(t, spread)xtickformat('yyyy')ylabel('PEP - Weighted KO [$ ]')
+ $00,000 shares of Coke stock and use the proceeds to buy USD\$100,000 shares of Pepsi. Assume we held these numbers of shares all the time:\begin{center}$ \textrm{KO}\;\textrm{shares}=\frac{100,000}{P_{KO} } $ and $ \textrm{PEP}\;\textrm{shares}=\frac{100,000}{P_{PEP} } $ \end{center}\begin{flushleft}Then the spread for this pairs trade is the difference between the price of PEP and the weighted price of KO, where the weight accounts for the relative number of shares:\end{flushleft}$ $\textrm{Weight}\;\textrm{of}\;\textrm{KO}=\frac{\textrm{KO}\;\textrm{shares}}{\textrm{PEP}\;\textrm{shares}}$ $\begin{flushleft}We plot:\end{flushleft}\begin{itemize}\setlength{\itemsep}{-1ex}   \item{\begin{flushleft} the spread of long Pepsi and weighted short Coke: $ \textrm{spread}=P_{PEP} \-P_{KO} \times \textrm{Weight}\;\textrm{of}\;\textrm{KO} $ \end{flushleft}}   \item{\begin{flushleft} the individual Coke \end{flushleft}}   \item{\begin{flushleft} the individual Pepsi \end{flushleft}}\end{itemize}
+ 
+ ```matlab% Timet = datetime(TT.Date);
+% Time
+t = datetime(TT.Date);
+
+% Define date of entering pair trade
+startDate = datetime(2023, 12, 29);
+
+% Find the index for start date
+index_dec29_2023 = find(TT.Date == startDate);
+
+% KO and PEP stock prices
+ko = TT.KO;
+pep = TT.PEP;
+
+% Numbers of shares held
+shares_ko = 100000/ko(index_dec29_2023);
+shares_pep = 100000/pep(index_dec29_2023);
+
+% Weight of KO
+weight = shares_ko/shares_pep;
+
+% Weighted spread (price differential)
+spread = pep - ko * weight;
+
+figure()
+set(gcf, 'Position', [0 0 1000 1000])
+ 
+subplot(3,1,1)
+plot(t, spread)
+xtickformat('yyyy')
+ylabel('PEP - Weighted KO [$]')
 grid on
  
 subplot(3,1,2)
 plot(t, ko)
 xtickformat('yyyy')
-ylabel('KO [ $]')grid on subplot(3,1,3)plot(t, pep)xtickformat('yyyy')ylabel('PEP [$ ]')
+ylabel('KO [$]')
+grid on
+ 
+subplot(3,1,3)
+plot(t, pep)
+xtickformat('yyyy')
+ylabel('PEP [$]')
 grid on
 ```
 
